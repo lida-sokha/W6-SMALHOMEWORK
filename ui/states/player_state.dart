@@ -1,11 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../../model/songs/song.dart';
- 
 
 class PlayerState extends ChangeNotifier {
   Song? _currentSong;
- 
+
   Song? get currentSong => _currentSong;
 
   void start(Song song) {
@@ -15,8 +14,12 @@ class PlayerState extends ChangeNotifier {
   }
 
   void stop() {
-   _currentSong = null;
+    _currentSong = null;
 
     notifyListeners();
+  }
+
+  bool isPlayed(Song song) {
+    return _currentSong == song;
   }
 }

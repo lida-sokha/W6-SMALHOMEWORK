@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:nested/nested.dart';
+import 'package:theory_lesson/W6-SMALHOMEWORK/data/repositories/settings/app_settings_repository.dart';
 
 import 'main_common.dart';
 import 'data/repositories/songs/song_repository.dart';
@@ -9,6 +10,7 @@ import 'ui/states/settings_state.dart';
 
 /// Configure provider dependencies for dev environment
 List<SingleChildWidget> get devProviders {
+  final settingsRepo = AppSettingsRepositoryMock();
   return [
     // 1 - Inject the song repository
     Provider<SongRepository>(create: (_) => SongRepositoryMock()),
@@ -17,7 +19,13 @@ List<SingleChildWidget> get devProviders {
     ChangeNotifierProvider<PlayerState>(create: (_) => PlayerState()),
 
     // 3 - Inject the  app setting state
-    ChangeNotifierProvider<AppSettingsState>(create: (_) => AppSettingsState()),
+    ChangeNotifierProvider<AppSettingsState>(
+      create: (_) {
+        final state = AppSettingsState(settingsRepo);
+        state.init();
+        return state;
+      },
+    ),
   ];
 }
 
